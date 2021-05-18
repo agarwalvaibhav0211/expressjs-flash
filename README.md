@@ -79,6 +79,10 @@ app.get('/', function(req, res){
 
 For an example using connect-flash in an Express app, refer to the [express3](https://github.com/agarwalvaibhav0211/expressjs-flash/tree/master/examples) example.
 
+## Feature Requests and Contributions
+
+If you want a Feature to be added to this module, you can either open an [issue](https://github.com/agarwalvaibhav0211/expressjs-flash/issues) or contribute yourself to the package on dev branch
+
 ## Tests
 
     $ npm install --dev
