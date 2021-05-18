@@ -1,32 +1,40 @@
 {
-  "name": "connect-flash",
-  "version": "0.1.1",
+  "name": "expressjs-flash",
+  "version": "0.1.0",
   "description": "Flash message middleware for Connect.",
-  "keywords": ["connect", "express", "flash", "messages"],
+  "keywords": [
+    "connect",
+    "express",
+    "flash",
+    "messages",
+    "expressjs"
+  ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/jaredhanson/connect-flash.git"
+    "url": "git://github.com/agarwalvaibhav0211/expressjs-flash.git"
   },
   "bugs": {
-    "url": "http://github.com/jaredhanson/connect-flash/issues"
+    "url": "http://github.com/agarwalvaibhav0211/expressjs-flash/issues"
   },
   "author": {
-    "name": "Jared Hanson",
-    "email": "jaredhanson@gmail.com",
-    "url": "http://www.jaredhanson.net/"
+    "name": "Vaibhav Agarwal",
+    "email": "agarwalvaibhav0211@gmail.com"
   },
-  "licenses": [ {
-    "type": "MIT",
-    "url": "http://www.opensource.org/licenses/MIT" 
-  } ],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/MIT"
+    }
+  ],
   "main": "./lib",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "vows": "0.6.x"
   },
   "scripts": {
     "test": "NODE_PATH=lib node_modules/.bin/vows test/*-test.js"
   },
-  "engines": { "node": ">= 0.4.0" }
+  "engines": {
+    "node": ">= 0.4.0"
+  }
 }
