@@ -1,24 +1,10 @@
-# connect-flash
+# ExpressJS-Flash
 
-The flash is a special area of the session used for storing messages.  Messages
-are written to the flash and cleared after being displayed to the user.  The
-flash is typically used in combination with redirects, ensuring that the message
-is available to the next page that is to be rendered.
+The flash is a special area of the session used for storing messages.  Messages are written to the flash and cleared after being displayed to the user.  The flash is typically used in combination with redirects, ensuring that the message is available to the next page that is to be rendered.
 
-This middleware was extracted from [Express](http://expressjs.com/) 2.x, after
-Express 3.x removed direct support for the flash.  connect-flash brings this
-functionality back to Express 3.x, as well as any other middleware-compatible
-framework or application. +1 for [radical reusability](http://substack.net/posts/b96642/the-node-js-aesthetic).
+This is inspired by connect-flash module used for ExpressJS>=3.x.
 
----
-
-<p align="center">
-  <sup>Advertisement</sup>
-  <br>
-  <a href="https://click.linksynergy.com/link?id=D*o7yui4/NM&offerid=507388.1565838&type=2&murl=https%3A%2F%2Fwww.udemy.com%2Fcourse%2Fthe-complete-web-development-bootcamp%2F&u1=kLuTGbJ5MIj5DsRzxguZr3CjzGb0gRdZ3C4KXxP">The Complete 2020 Web Development Bootcamp</a><br>Become a full-stack web developer with just one course. HTML, CSS, Javascript, Node, React, MongoDB and more!
-</p>
-
----
+But I felt that the connect-flash was too basic. I made a new module to include some more features that I felt were sorely needed for many workflows.
 
 ## Install
 
@@ -26,58 +12,84 @@ framework or application. +1 for [radical reusability](http://substack.net/posts
 
 ## Usage
 
-#### Express 3.x
+#### Express
 
-Flash messages are stored in the session.  First, setup sessions as usual by
-enabling `cookieParser` and `session` middleware.  Then, use `flash` middleware
-provided by connect-flash.
+Flash messages are stored in the session.  First, setup sessions as usual by enabling `cookieParser` and `session` middleware. Then, use `flash` middleware provided by connect-flash.
 
 ```javascript
 var flash = require('connect-flash');
 var app = express();
 
 app.configure(function() {
-  app.use(express.cookieParser('keyboard cat'));
-  app.use(express.session({ cookie: { maxAge: 60000 }}));
+  app.use(express.session({ 
+    secret: 'keyboard cat',
+    cookie: { maxAge: 60000 }
+  }));
   app.use(flash());
 });
 ```
+## Options for Middleware
 
-With the `flash` middleware in place, all requests will have a `req.flash()` function
-that can be used for flash messages.
+You can pass options to the middleware.
+
+```javascript
+  app.use(flash({
+    passToView : true  //This enables you to use the getFlash() and setFlash() in the view directly, Default: true
+  }));
+});
+```
+
+With the `flash` middleware in place, all requests will have a `req.getFlash()` and a `req.getFlash()` function that can be used for flash messages.
 
 ```javascript
 app.get('/flash', function(req, res){
   // Set a flash message by passing the key, followed by the value, to req.flash().
-  req.flash('info', 'Flash is back!')
+  req.setFlash('info', 'Flash is here!');
   res.redirect('/');
 });
 
 app.get('/', function(req, res){
-  // Get an array of flash messages by passing the key to req.flash()
-  res.render('index', { messages: req.flash('info') });
+  messages=req.getFlash('info');
+  res.render('index', { messages: req.getFlash('info') });
+});
+```
+## Options for the functions
+
+You can pass options to the get and set functions
+
+```javascript
+app.get('/flash', function(req, res){
+  // Set a flash message by passing the key, followed by the value, to req.flash().
+  req.setFlash('info', 'Flash is back!',{
+    maxReads: 4,   //The number of times this message can be read, default: 1
+    reqCount: 8    //The number of requests through which this message persists, default: null, This means that the middleware does not keep track of this. Note: a redirect counts as a request and decreases this counter
+  });
+  res.redirect('/');
+});
+
+app.get('/', function(req, res){
+  messages=req.getFlash('info',{
+    reflash: true, //This stops it being counted as a read, Useful when needing to read in a middleware
+  });
+  res.render('index', { messages: req.getFlash('info') });
 });
 ```
 
 ## Examples
 
-For an example using connect-flash in an Express 3.x app, refer to the [express3](https://github.com/jaredhanson/connect-flash/tree/master/examples/express3)
-example.
+For an example using connect-flash in an Express app, refer to the [express3](https://github.com/agarwalvaibhav0211/expressjs-flash/tree/master/examples) example.
 
 ## Tests
 
     $ npm install --dev
     $ make test
 
-[![Build Status](https://secure.travis-ci.org/jaredhanson/connect-flash.png)](http://travis-ci.org/jaredhanson/connect-flash)
-
 ## Credits
 
-  - [Jared Hanson](http://github.com/jaredhanson)
-  - [TJ Holowaychuk](https://github.com/visionmedia)
+  - [Vaibhav Agarwal](https://github.com/agarwalvaibhav0211)
 
 ## License
 
 [The MIT License](http://opensource.org/licenses/MIT)
 
-Copyright (c) 2012-2013 Jared Hanson <[http://jaredhanson.net/](http://jaredhanson.net/)>
+Copyright (c) 2012-2013 Vaibhav Agarwal

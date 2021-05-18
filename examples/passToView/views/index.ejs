@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Express 3.x Example for connect-flash</title>
+</head>
+
+<body>
+
+	<p>
+		<a href="/flash">Flash</a> |
+		<a href="/no-flash">No Flash</a>
+	</p>
+	This is the message passed from controller
+	<% if (message) { %>
+	<p><%= message %></p>
+	<% } %>
+
+	This is message returned from getFlash() invocation
+	<% var msg=getFlash('info') %> 
+	<% if (msg) { %>
+	<p><%= msg %></p>
+	<% } %>
+
+	</body>
+</html>
